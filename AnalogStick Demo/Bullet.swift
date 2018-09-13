@@ -1,39 +1,46 @@
+//
+//  bullet.swift
+//  AnalogStick Demo
+//
+//  Created by Squidward on 9/1/18.
+//  Copyright © 2018 xaxby. All rights reserved.
+//
+
 import Foundation
 import SpriteKit
 
-class Bullet: SKNode {
-    let bulletSpeed:CGFloat = 15;
-    
-    required init(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+
+class bullet {
+    var distance : CGFloat
+    var position : CGPoint
+    var faceRight : Bool
+    init(distance: CGFloat, position: CGPoint, faceRight: Bool) {
+        self.distance = distance
+        self.position = position
+        self.faceRight = faceRight
     }
     
-    init (pos:CGPoint) {
-        super.init();
-        let bulletSprite = SKSpriteNode(imageNamed:"cat_blast_ball_1")
-        self.position = pos;
+    func shoot(){
         
-        self.addChild(bulletSprite)
         
-        bulletSprite.size = CGSize(width: 200, height: 200)
-        bulletSprite.xScale = 0.4;
-        bulletSprite.yScale = 0.4;
-        bulletSprite.physicsBody = SKPhysicsBody(circleOfRadius: bulletSprite.size.width / 2)
-        bulletSprite.physicsBody!.categoryBitMask = BodyType.bullet.rawValue
-        bulletSprite.physicsBody!.contactTestBitMask = BodyType.wheelObject.rawValue | BodyType.deathObject.rawValue | BodyType.enemy.rawValue
-        bulletSprite.physicsBody!.friction = 1
-        bulletSprite.physicsBody!.isDynamic = true
-        bulletSprite.physicsBody!.affectedByGravity = false
-        bulletSprite.physicsBody!.restitution = 0
-        bulletSprite.physicsBody!.allowsRotation = true
-        self.zPosition = 102
-    }
-    
-    func bulletDirection(_ facingRight: Bool){
+        let bullet = SKSpriteNode(imageNamed: "gray.png")
+        //bullet.size.width = 5
+        //bullet.size.height = 5
+        bullet.position = position
         
-    }
-    
-    func update(){
-        self.position.x += bulletSpeed;
+        if(faceRight){
+            self.distance = position.x + 1000
+        }else{
+            self.distance = position.x - 1000
+        }
+        
+        
+        let time: Double = 5
+        let scale = SKAction.scale(to: 0.01, duration: 0)
+        let move = SKAction.moveTo(x: distance, duration: time)
+        
+        let sequence = SKAction.sequence([scale, move])
+        bullet.run(sequence)
+        
     }
 }

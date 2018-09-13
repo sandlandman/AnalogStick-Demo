@@ -3,7 +3,7 @@ import AudioToolbox
 import MediaPlayer
 
 @available(iOS 9.0, *)
-class GameScene: SKScene {
+class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var idle = true
     
@@ -54,6 +54,9 @@ class GameScene: SKScene {
     var m = SKSpriteNode (imageNamed: "backMountain.png")
     
     var enemy = SKSpriteNode(imageNamed: "gray.png")
+    var enemyArray = [Enemy]()
+    var enemyCount = 0
+
     
     
     var treeisFront = true
@@ -66,6 +69,9 @@ class GameScene: SKScene {
     var blasting = false
     var facingRight = true;
     var shootBullets = true
+    
+    var push = false
+    var moveDown = true
     
     var shootNode: SKSpriteNode?
     var appleNode: SKSpriteNode?
@@ -86,6 +92,9 @@ class GameScene: SKScene {
     var scrollerBackMountain : InfiniteScrollingBackground?
     var scrollerFrontMountain : InfiniteScrollingBackground?
     
+    
+    var masterSize = CGSize()
+    
 
     var CameraNode: SKCameraNode?
     
@@ -93,7 +102,11 @@ class GameScene: SKScene {
        
         setUp()
         setUpBlastHandlers()
-        setUpCatHandlers()
+        if #available(iOS 10.0, *) {
+            setUpCatHandlers()
+        } else {
+            // Fallback on earlier versions
+        }
         setUpKickHandler()
         setSuperKickHandler()
         
@@ -133,6 +146,9 @@ class GameScene: SKScene {
         //let size2 = CGSize(width: 20, height: 30)
         //let scoreSprite = SKSpriteNode(color: SKColor.clear, size: size2)
         //addChild(scoreSprite)
+        
+        physicsWorld.contactDelegate = self
+
         
        
     }
@@ -234,6 +250,10 @@ class GameScene: SKScene {
         CameraNode?.position.x = (appleNode?.position.x)!
         
         moveEnemy()
+        for enemy in enemyArray {
+            enemy.moveEnemy(aN: appleNode!, facingRight: facingRight)
+        }
+        //enemyArray[0].moveEnemy(aN: appleNode!, facingRight: facingRight)
     }
     
     
@@ -431,6 +451,7 @@ class GameScene: SKScene {
         createEnemy()
         
     }
+    @available(iOS 10.0, *)
     func setUpCatHandlers(){
         //Movement Controls
         moveAnalogStick.beginHandler = { [unowned self] in
@@ -438,16 +459,27 @@ class GameScene: SKScene {
                 return
             }
             
-            let area = (self.TextureArrayIdle[0].size().height) /  (self.TextureArrayShootWalk[0].size().height)
+            let height =  (self.TextureArrayShootWalk[0].size().height) / (self.TextureArrayIdle[0].size().height)
+            let width = (self.TextureArrayShootWalk[0].size().width) / (self.TextureArrayIdle[0].size().width)
+            let h2 = (self.TextureArrayIdle[0].size().height) * height
+            let w2 = (self.TextureArrayIdle[0].size().width) * width
+            let size = CGSize(width: w2, height: h2)
+            self.masterSize = size
             
-            let ani = (SKAction.repeatForever(SKAction.animate(with: self.TextureArrayShootWalk, timePerFrame: 0.05)))
             
-            let scale = SKAction.scale(to: 1, duration: 0)
-            aN.run(SKAction.sequence([scale, ani]))
-            print(aN.position.y)
+          let ani = (SKAction.repeatForever(SKAction.animate(with: self.TextureArrayShootWalk, timePerFrame: 0.05)))
+            
+          let scale = SKAction.scale(to: size, duration: 0)
+          aN.run(SKAction.sequence([ani]))
+            //print(aN.position.y)
             
             AudioServicesPlaySystemSound(1519)
             self.pauseScroller(pause : false)
+            
+            if(self.moveDown == false){
+                aN.position.y += 11
+                self.moveDown = true
+            }
             
         }
         moveAnalogStick.trackingHandler = { [unowned self] data in
@@ -456,13 +488,13 @@ class GameScene: SKScene {
             }
             aN.position = CGPoint(x: aN.position.x + (data.velocity.x * 0.12), y: aN.position.y )
             if(data.velocity.x < 0 && self.facingRight != false){
-                aN.run(SKAction.sequence([SKAction.scaleX(to: -1, duration: 0.4)] ))
+                aN.xScale = -1
                 self.facingRight = false
                 //self.setMovementDirection()
 
             }
             else if(data.velocity.x >= 0 && self.facingRight != true){
-                aN.run(SKAction.sequence([SKAction.scaleX(to: 1, duration: 0.4)] ))
+                aN.xScale = 1
                 self.facingRight = true
                 //self.setMovementDirection()
                 
@@ -474,25 +506,23 @@ class GameScene: SKScene {
                 self.shoot()
                 self.shootBullets = false
                 self.startTimer()
-            }
-           
-       
-            
-            
+             }
         }
         moveAnalogStick.stopHandler = { [unowned self] in
             //self.appleNode!.removeAllActions()
             guard let aN = self.appleNode else {
                 return
             }
-            let ani = (SKAction.repeatForever(SKAction.animate(with: self.TextureArrayIdle, timePerFrame: 0.05)))
+            let ani = (SKAction.repeatForever(SKAction.animate(with: self.TextureArrayIdle, timePerFrame: 0.07)))
             
-            let area = (self.TextureArrayIdle[0].size().height) /  (self.TextureArrayShootWalk[0].size().height)
-            
-            let scale = SKAction.scale(to: area * 1, duration: 0)
-            aN.run(SKAction.sequence([scale, ani]))
+            aN.run(SKAction.sequence([ani]))
             self.pauseScroller(pause : true)
-            print(aN.position.y)
+            
+            if(self.moveDown == true){
+                aN.position.y += -11
+                self.moveDown = false
+            }
+            //print(aN.position.y)
             
         }
         
@@ -670,11 +700,11 @@ class GameScene: SKScene {
     
     func addApple(_ position: CGPoint) {
         
-        TextureAtlasIdle = SKTextureAtlas(named: "dance")
+        TextureAtlasIdle = SKTextureAtlas(named: "idle")
         
         for i in 1...TextureAtlasIdle.textureNames.count{
             
-            let Name = "dance_\(i).png"
+            let Name = "idle_\(i).png"
             TextureArrayIdle.append(SKTexture (imageNamed: Name))
         }
         
@@ -808,24 +838,56 @@ class GameScene: SKScene {
         enemy.position.y = aN.position.y - 50
         enemy.zPosition = 2
         enemy.size = aN.size
-        addChild(enemy)
-       
+        enemy.physicsBody = SKPhysicsBody(rectangleOf: enemy.size)
+        enemy.physicsBody?.isDynamic = false
+        enemy.physicsBody?.restitution = 0.0
+        enemy.physicsBody?.friction = 0
+        enemy.physicsBody?.collisionBitMask = 0
+
+        
+        
+        enemy.name = "enemy"
+        
+
+        //addChild(enemy)
+        
+        let name = "enemy\(enemyCount)"
+        var enemyClone:Enemy = Enemy(hp: 100, sprite: "gray.png")
+        enemyArray.insert(enemyClone, at:enemyCount)
+        enemyArray[enemyCount].setUp(aN: aN)
+        enemyArray[enemyCount].enemy.name = name
+        print(enemyArray[enemyCount].enemy.name)
+        addChild(enemyArray[enemyCount].enemy)
+        enemyCount += 1
+
     }
     
     func moveEnemy(){
         guard let aN = self.appleNode else {
             return
         }
-        let distance = calcDistance(p1 : aN.position, p2: enemy.position)
        
+        if(push == true){
+            if(facingRight){
+                enemy.position.x += 10
+                push = false
+            }
+            else if(!facingRight){
+                enemy.position.x -= 10
+                push = false
+            }
+        }
+        else{
             if(aN.position.x + 100 < enemy.position.x ){
                 enemy.position.x -= 1
             }
             if (aN.position.x - 100 > enemy.position.x){
                 enemy.position.x += 1
+            }
+        }
         
         
-    }
+        
     }
     
     func calcDistance(p1 : CGPoint, p2 : CGPoint) -> Double{
@@ -844,26 +906,43 @@ class GameScene: SKScene {
         guard let aN = self.appleNode else {
             return
         }
-      let bullet = SKSpriteNode(imageNamed: "gray.png")
-      //bullet.size.width = 5
-      //bullet.size.height = 5
-      bullet.position = aN.position
-      var distance: CGFloat
-
         
-        if(self.facingRight){
+      //Physics Setup of Bullet
+      let bullet = SKSpriteNode(imageNamed: "bullet.png")
+      bullet.physicsBody = SKPhysicsBody(rectangleOf: bullet.size)
+      //bullet.physicsBody?.isDynamic = false
+      bullet.physicsBody?.affectedByGravity = false
+      bullet.name = "bullet"
+      bullet.zPosition = 2
+      bullet.physicsBody?.restitution = 0.0
+      bullet.physicsBody?.friction = 0.0
+      bullet.physicsBody!.contactTestBitMask = bullet.physicsBody!.collisionBitMask
+      bullet.physicsBody?.collisionBitMask = 0
+        
+      bullet.position = aN.position
+    
+      var distance: CGFloat
+    
+
+        if(self.facingRight == true){
+            bullet.xScale = 0.05
+            bullet.yScale = 0.05
+            bullet.position.x = aN.position.x + 50
+            bullet.position.y = aN.position.y - 11
             distance = aN.position.x + 1000
         }
         else{
+            bullet.xScale = -0.05
+            bullet.yScale = 0.05
+            bullet.position.x = aN.position.x - 50
+            bullet.position.y = aN.position.y - 11
             distance = aN.position.x + -1000
         }
         
-        
       let time: Double = 1
-      let scale = SKAction.scale(to: 0.01, duration: 0)
       let move = SKAction.moveTo(x: distance, duration: time)
       
-        let sequence = SKAction.sequence([scale, move, buildAction(bullet, _facingRight: self.facingRight, _distance: distance)])
+     let sequence = SKAction.sequence([move, buildAction(bullet, _facingRight: self.facingRight, _distance: distance)])
         
      bullet.run(sequence)
       
@@ -879,6 +958,56 @@ class GameScene: SKScene {
         
         }
     }
+    
+    //Delete explosion
+    func buildActionBullet(_ object: SKSpriteNode) -> SKAction {
+        return SKAction.run {
+                object.removeFromParent()
+        }
+    }
+    
+    
+    //Physics Collision Functions
+    func collisionBetween(bullet: SKNode, object: SKNode) {
+        
+        let anim = (SKAction.repeat(SKAction.animate(with: self.TextureArrayBlastBallEnd, timePerFrame: 0.05), count: 1))
+        let explosion = SKSpriteNode( imageNamed : "cat_blast_end_1")
+        
+        if(facingRight){
+            explosion.xScale = 1
+            let sequence = SKAction.sequence([anim, buildActionBullet(explosion)])
+            explosion.position = bullet.position
+            self.addChild(explosion)
+            explosion.run(sequence)
+            bullet.removeFromParent()
+            push = true
+            
+        }
+        else{
+            explosion.xScale = -1
+            let sequence = SKAction.sequence([anim, buildActionBullet(explosion)])
+            explosion.position = bullet.position
+            self.addChild(explosion)
+            explosion.run(sequence)
+            bullet.removeFromParent()
+            push = true
+
+        }
+    }
+    
+    func didBegin(_ contact: SKPhysicsContact) {
+        guard let nodeA = contact.bodyA.node else { return }
+        guard let nodeB = contact.bodyB.node else { return }
+        
+        for index in 0...enemyCount {
+            if nodeA.name == "bullet" && nodeB.name == "enemy\(index)"{
+                collisionBetween(bullet: nodeA, object: nodeB)
+            } else if nodeB.name == "bullet"  && nodeA.name == "enemy\(index)" {
+                collisionBetween(bullet: nodeB, object: nodeA)
+            }
+        }
+    }
+
     
     func startTimer(){
         

@@ -11,7 +11,8 @@
 		3F31554120E9B2EF00D3DA5F /* cat_blast_ball.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 3F31554020E9B2EF00D3DA5F /* cat_blast_ball.atlas */; };
 		3F6418BB20D9FAE200EDB782 /* images.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 3F6418BA20D9FAE200EDB782 /* images.atlas */; };
 		3F6782FA213B8A4B0050212B /* bullet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6782F9213B8A4B0050212B /* bullet.swift */; };
-		3F678300213BC20B0050212B /* dance.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 3F6782FF213BC20B0050212B /* dance.atlas */; };
+		3F678306213DDD3F0050212B /* cat_walk_gun.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 3F678305213DDD3F0050212B /* cat_walk_gun.atlas */; };
+		3F67830C213E10590050212B /* idle.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 3F67830B213E10590050212B /* idle.atlas */; };
 		3F73209C212A1C37003D6964 /* gray.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F73209B212A1C37003D6964 /* gray.png */; };
 		3F8ADB6D20FBFBA100E71860 /* InfiniteScrollingBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8ADB6C20FBFBA100E71860 /* InfiniteScrollingBackground.swift */; };
 		3F8ADB7420FBFD9E00E71860 /* frontMountain.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F8ADB6F20FBFD9D00E71860 /* frontMountain.png */; };
@@ -22,7 +23,6 @@
 		3F90038E20FEE768007AF690 /* black copy.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F90038D20FEE767007AF690 /* black copy.png */; };
 		3F90039020FEE8B0007AF690 /* black copy.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F90038F20FEE8B0007AF690 /* black copy.png */; };
 		3FA29719212A0D270046CA1C /* Enemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA29718212A0D270046CA1C /* Enemy.swift */; };
-		3FAA4C45210D375B0078BB48 /* cat_walk_gun.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 3FAA4C44210D375B0078BB48 /* cat_walk_gun.atlas */; };
 		3FB2254120ED39A500FA0478 /* bullet.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FB2254020ED39A500FA0478 /* bullet.png */; };
 		3FB2257F20EDB9AD00FA0478 /* cat_kick.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 3FB2257E20EDB9AD00FA0478 /* cat_kick.atlas */; };
 		3FB2258520EDBA1E00FA0478 /* cat_blast_end.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 3FB2258420EDBA1D00FA0478 /* cat_blast_end.atlas */; };
@@ -80,7 +80,8 @@
 		3F31554020E9B2EF00D3DA5F /* cat_blast_ball.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = cat_blast_ball.atlas; sourceTree = "<group>"; };
 		3F6418BA20D9FAE200EDB782 /* images.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = images.atlas; sourceTree = "<group>"; };
 		3F6782F9213B8A4B0050212B /* bullet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bullet.swift; sourceTree = "<group>"; };
-		3F6782FF213BC20B0050212B /* dance.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = dance.atlas; sourceTree = "<group>"; };
+		3F678305213DDD3F0050212B /* cat_walk_gun.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = cat_walk_gun.atlas; sourceTree = "<group>"; };
+		3F67830B213E10590050212B /* idle.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = idle.atlas; sourceTree = "<group>"; };
 		3F73209B212A1C37003D6964 /* gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gray.png; sourceTree = "<group>"; };
 		3F8ADB6C20FBFBA100E71860 /* InfiniteScrollingBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfiniteScrollingBackground.swift; sourceTree = "<group>"; };
 		3F8ADB6F20FBFD9D00E71860 /* frontMountain.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = frontMountain.png; sourceTree = "<group>"; };
@@ -91,7 +92,6 @@
 		3F90038D20FEE767007AF690 /* black copy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "black copy.png"; sourceTree = "<group>"; };
 		3F90038F20FEE8B0007AF690 /* black copy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "black copy.png"; sourceTree = "<group>"; };
 		3FA29718212A0D270046CA1C /* Enemy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enemy.swift; sourceTree = "<group>"; };
-		3FAA4C44210D375B0078BB48 /* cat_walk_gun.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = cat_walk_gun.atlas; sourceTree = "<group>"; };
 		3FB2254020ED39A500FA0478 /* bullet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bullet.png; sourceTree = "<group>"; };
 		3FB2257E20EDB9AD00FA0478 /* cat_kick.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = cat_kick.atlas; path = ../../../../Desktop/cat/cat_kick.atlas; sourceTree = "<group>"; };
 		3FB2258420EDBA1D00FA0478 /* cat_blast_end.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = cat_blast_end.atlas; path = ../../../../Desktop/cat/cat_blast_end.atlas; sourceTree = "<group>"; };
@@ -203,8 +203,8 @@
 		8C2C1F6419DD762300510F35 /* AnalogStick Demo */ = {
 			isa = PBXGroup;
 			children = (
-				3F6782FF213BC20B0050212B /* dance.atlas */,
-				3FAA4C44210D375B0078BB48 /* cat_walk_gun.atlas */,
+				3F67830B213E10590050212B /* idle.atlas */,
+				3F678305213DDD3F0050212B /* cat_walk_gun.atlas */,
 				3FB225A320EDEBFE00FA0478 /* cat_charge.atlas */,
 				3FB225A120EDD85500FA0478 /* super_kick.atlas */,
 				3FB2258620EDBCA300FA0478 /* cat_walk.atlas */,
@@ -342,8 +342,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F678306213DDD3F0050212B /* cat_walk_gun.atlas in Resources */,
 				8C2C1F7619DD762300510F35 /* LaunchScreen.xib in Resources */,
 				3F90039020FEE8B0007AF690 /* black copy.png in Resources */,
+				3F67830C213E10590050212B /* idle.atlas in Resources */,
 				3F73209C212A1C37003D6964 /* gray.png in Resources */,
 				8C9184C61F471B340093B5F3 /* jSubstrate.png in Resources */,
 				8C2C1F7319DD762300510F35 /* Images.xcassets in Resources */,
@@ -351,7 +353,6 @@
 				3F8ADB7420FBFD9E00E71860 /* frontMountain.png in Resources */,
 				8C9184C71F471B340093B5F3 /* jSubstrate@2x.png in Resources */,
 				8C2C1F7119DD762300510F35 /* Main.storyboard in Resources */,
-				3F678300213BC20B0050212B /* dance.atlas in Resources */,
 				3F6418BB20D9FAE200EDB782 /* images.atlas in Resources */,
 				8C9184C41F471B340093B5F3 /* jStick.png in Resources */,
 				3FB2257F20EDB9AD00FA0478 /* cat_kick.atlas in Resources */,
@@ -366,7 +367,6 @@
 				3FB2254120ED39A500FA0478 /* bullet.png in Resources */,
 				3F8ADB7520FBFD9E00E71860 /* backTree.png in Resources */,
 				3F31553320E93DCE00D3DA5F /* cat_blast.atlas in Resources */,
-				3FAA4C45210D375B0078BB48 /* cat_walk_gun.atlas in Resources */,
 				8C073AA51B70FC5A005CE3AD /* minus.png in Resources */,
 				3F8ADB7720FBFD9E00E71860 /* backMountain.png in Resources */,
 				3F8ADB7620FBFD9E00E71860 /* sky.png in Resources */,
