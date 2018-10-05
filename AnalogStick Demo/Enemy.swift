@@ -77,8 +77,8 @@ class Enemy {
             }
             else{
                 let idle = (SKAction.repeat(SKAction.animate(with: TextureArrayEnemyCatIdle, timePerFrame: 0.1), count: 1))
-                let sequence = SKAction.sequence([ scale,idle,run])
-                self.enemy.run(sequence)
+                //let sequence = SKAction.sequence([ scale,idle,run])
+                //self.enemy.run(sequence)
             }
         }
     }
