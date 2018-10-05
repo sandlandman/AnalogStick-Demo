@@ -29,6 +29,9 @@
 		3FB2258720EDBCA300FA0478 /* cat_walk.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 3FB2258620EDBCA300FA0478 /* cat_walk.atlas */; };
 		3FB225A220EDD85500FA0478 /* super_kick.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 3FB225A120EDD85500FA0478 /* super_kick.atlas */; };
 		3FB225A420EDEBFF00FA0478 /* cat_charge.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 3FB225A320EDEBFE00FA0478 /* cat_charge.atlas */; };
+		3FB6A8CE21582E720096C6E0 /* enemyCat_idle.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 3FB6A8CD21582E720096C6E0 /* enemyCat_idle.atlas */; };
+		3FB6A8D02158322B0096C6E0 /* enemyCatRun.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 3FB6A8CF2158322B0096C6E0 /* enemyCatRun.atlas */; };
+		3FB6A8D2215843D90096C6E0 /* cut_c.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 3FB6A8D1215843D80096C6E0 /* cut_c.atlas */; };
 		3FD2BEB720F28880009E1C9E /* cat_launch.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FD2BEB620F28880009E1C9E /* cat_launch.png */; };
 		3FFEFF4A20E3445F00D5F6DB /* clouds.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FFEFF4920E3445F00D5F6DB /* clouds.png */; };
 		8C073AA51B70FC5A005CE3AD /* minus.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C073A9B1B70FC5A005CE3AD /* minus.png */; };
@@ -98,6 +101,9 @@
 		3FB2258620EDBCA300FA0478 /* cat_walk.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = cat_walk.atlas; path = ../../../../Desktop/cat/cat_walk.atlas; sourceTree = "<group>"; };
 		3FB225A120EDD85500FA0478 /* super_kick.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = super_kick.atlas; sourceTree = "<group>"; };
 		3FB225A320EDEBFE00FA0478 /* cat_charge.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = cat_charge.atlas; sourceTree = "<group>"; };
+		3FB6A8CD21582E720096C6E0 /* enemyCat_idle.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = enemyCat_idle.atlas; path = ../../../../Desktop/cat/enemyCat_idle.atlas; sourceTree = "<group>"; };
+		3FB6A8CF2158322B0096C6E0 /* enemyCatRun.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = enemyCatRun.atlas; sourceTree = "<group>"; };
+		3FB6A8D1215843D80096C6E0 /* cut_c.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = cut_c.atlas; sourceTree = "<group>"; };
 		3FD2BEB620F28880009E1C9E /* cat_launch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cat_launch.png; sourceTree = "<group>"; };
 		3FFEFF4920E3445F00D5F6DB /* clouds.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = clouds.png; path = "../../../Magic-Cliffs-Environment/PNG/backgrounds/clouds.png"; sourceTree = "<group>"; };
 		8C073A9B1B70FC5A005CE3AD /* minus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = minus.png; sourceTree = "<group>"; };
@@ -203,6 +209,9 @@
 		8C2C1F6419DD762300510F35 /* AnalogStick Demo */ = {
 			isa = PBXGroup;
 			children = (
+				3FB6A8D1215843D80096C6E0 /* cut_c.atlas */,
+				3FB6A8CF2158322B0096C6E0 /* enemyCatRun.atlas */,
+				3FB6A8CD21582E720096C6E0 /* enemyCat_idle.atlas */,
 				3F67830B213E10590050212B /* idle.atlas */,
 				3F678305213DDD3F0050212B /* cat_walk_gun.atlas */,
 				3FB225A320EDEBFE00FA0478 /* cat_charge.atlas */,
@@ -344,6 +353,7 @@
 			files = (
 				3F678306213DDD3F0050212B /* cat_walk_gun.atlas in Resources */,
 				8C2C1F7619DD762300510F35 /* LaunchScreen.xib in Resources */,
+				3FB6A8D2215843D90096C6E0 /* cut_c.atlas in Resources */,
 				3F90039020FEE8B0007AF690 /* black copy.png in Resources */,
 				3F67830C213E10590050212B /* idle.atlas in Resources */,
 				3F73209C212A1C37003D6964 /* gray.png in Resources */,
@@ -357,9 +367,11 @@
 				8C9184C41F471B340093B5F3 /* jStick.png in Resources */,
 				3FB2257F20EDB9AD00FA0478 /* cat_kick.atlas in Resources */,
 				3FB2258720EDBCA300FA0478 /* cat_walk.atlas in Resources */,
+				3FB6A8CE21582E720096C6E0 /* enemyCat_idle.atlas in Resources */,
 				8C9184CB1F4720820093B5F3 /* apple@2x.png in Resources */,
 				3FFEFF4A20E3445F00D5F6DB /* clouds.png in Resources */,
 				3F90038E20FEE768007AF690 /* black copy.png in Resources */,
+				3FB6A8D02158322B0096C6E0 /* enemyCatRun.atlas in Resources */,
 				3FD2BEB720F28880009E1C9E /* cat_launch.png in Resources */,
 				3FB225A420EDEBFF00FA0478 /* cat_charge.atlas in Resources */,
 				8C073AA81B70FC5A005CE3AD /* plus@2x.png in Resources */,

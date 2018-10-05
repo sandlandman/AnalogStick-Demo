@@ -2,7 +2,7 @@ import SpriteKit
 import AudioToolbox
 import MediaPlayer
 
-@available(iOS 9.0, *)
+@available(iOS 10.0, *)
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var idle = true
@@ -19,6 +19,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var TextureAtlasSuperCat = SKTextureAtlas()
     var TextureAtlasCatKick = SKTextureAtlas()
     var TextureAtlasCharge = SKTextureAtlas()
+    var TextureAtlasEnemyCatIdle = SKTextureAtlas()
 
     var TextureArrayShootWalk = [SKTexture]()
     var TextureArrayWalk = [SKTexture]()
@@ -32,12 +33,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var TextureArrayCatKick = [SKTexture]()
     var TextureArrayCharge = [SKTexture]()
     var TextureArrayChargeHold = [SKTexture]()
+    var TextureArrayEnemyCatIdle = [SKTexture]()
+
 
     private var shootWalk: [SKTexture] = []
     
     var timer: Timer!
     var totalTime = 0.2
-
 
 
     var sky = SKSpriteNode( imageNamed : "sky.png")
@@ -55,6 +57,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var enemy = SKSpriteNode(imageNamed: "gray.png")
     var enemyArray = [Enemy]()
+    var enemyDictionary = [String : Enemy]()
     var enemyCount = 0
 
     
@@ -111,7 +114,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setSuperKickHandler()
         
         // Instantiate a new music player
-        let mp = MPMusicPlayerController.systemMusicPlayer
+        //let mp = MPMusicPlayerController.systemMusicPlayer
         //mp.play()
         
         sky.size.width = (scene?.frame.width)!
@@ -140,7 +143,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
       
        
         createTree()
-        //buildBear()
 
         //mp.nowPlayingItem?.title
         //let size2 = CGSize(width: 20, height: 30)
@@ -149,8 +151,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         physicsWorld.contactDelegate = self
 
-        
-       
     }
     
     func createTree() {
@@ -249,11 +249,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         rotateAnalogStick.position.x = (CameraNode?.position.x)! + 250
         CameraNode?.position.x = (appleNode?.position.x)!
         
-        moveEnemy()
-        for enemy in enemyArray {
-            enemy.moveEnemy(aN: appleNode!, facingRight: facingRight)
+        let keys = enemyDictionary.keys
+        for key in keys {
+            enemyDictionary[key]?.moveEnemy(aN: appleNode!, facingRight: facingRight)
         }
-        //enemyArray[0].moveEnemy(aN: appleNode!, facingRight: facingRight)
+        if keys.count < 5 {
+            createEnemy()
+        }
+        
     }
     
     
@@ -331,9 +334,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }//End catAnimation
     func outOfBounds(){
         guard let bN = self.blastNode else {
-            return
-        }
-        guard let aN = self.appleNode else {
             return
         }
         let screenSize = UIScreen.main.bounds
@@ -415,6 +415,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         blastButton.position = CGPoint(x: moveAnalogStick.radius , y: moveAnalogStick.radius + 100)
         kickButton.position = CGPoint(x: moveAnalogStick.radius + 50, y: moveAnalogStick.radius + 100)
         superKickButton.position = CGPoint(x: moveAnalogStick.radius + 100, y: moveAnalogStick.radius + 100)
+        
+        moveAnalogStick.zPosition = 4
 
         let btnsOffset: CGFloat = 10
         let btnsOffsetHalf = btnsOffset / 2
@@ -448,8 +450,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         blastNode?.physicsBody?.affectedByGravity = false
         blastNode?.physicsBody?.restitution = 0.0
         
-        createEnemy()
-        
     }
     @available(iOS 10.0, *)
     func setUpCatHandlers(){
@@ -469,7 +469,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
           let ani = (SKAction.repeatForever(SKAction.animate(with: self.TextureArrayShootWalk, timePerFrame: 0.05)))
             
-          let scale = SKAction.scale(to: size, duration: 0)
+          //let scale = SKAction.scale(to: size, duration: 0)
           aN.run(SKAction.sequence([ani]))
             //print(aN.position.y)
             
@@ -531,9 +531,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //self.appleNode?.zRotation = jData.angular
         }
         rotateAnalogStick.stopHandler =  { [unowned self] in
-            guard let aN = self.appleNode else {
-                return
-            }
         }
     }
     func setSuperKickHandler(){
@@ -591,12 +588,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             aN.run(SKAction.repeatForever(SKAction.animate(with: self.TextureArrayCatKick, timePerFrame: 0.05)))
         }
         kickButton.trackingHandler = { [unowned self] jData in
-            guard let aN = self.appleNode else {
-                return
-            }
-            guard let bN = self.blastNode else {
-                return
-            }
             
             if(self.blasting == false){
                 //self.catAnimation(self.TextureArrayBlastHold, "Cat")
@@ -606,9 +597,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //bN.physicsBody?.applyImpulse(CGVector (dx: sin(aN.position.x) * 100, dy: cos(aN.position.y) * 100 ))
         }
         kickButton.stopHandler = { [unowned self] in
-            guard let aN = self.appleNode else {
-                return
-            }
+
             self.catAnimation(self.TextureArrayIdle, "Cat")
             AudioServicesPlaySystemSound(1521)
         }
@@ -817,49 +806,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         CameraNode?.position.y = size.height/2
     }
     
-    
-    func buildBear() {
-        let bearAnimatedAtlas = SKTextureAtlas(named: "cat_walk_gun")
-        var walkFrames: [SKTexture] = []
-        
-        let numImages = bearAnimatedAtlas.textureNames.count
-        for i in 1...numImages {
-            let bearTextureName = "cat_walk_shot_\(i)"
-            walkFrames.append(bearAnimatedAtlas.textureNamed(bearTextureName))
-        }
-        shootWalk = walkFrames
-    }
-    
     func createEnemy(){
         guard let aN = self.appleNode else {
             return
         }
-        enemy.position.x = aN.position.x
-        enemy.position.y = aN.position.y - 50
-        enemy.zPosition = 2
-        enemy.size = aN.size
-        enemy.physicsBody = SKPhysicsBody(rectangleOf: enemy.size)
-        enemy.physicsBody?.isDynamic = false
-        enemy.physicsBody?.restitution = 0.0
-        enemy.physicsBody?.friction = 0
-        enemy.physicsBody?.collisionBitMask = 0
-
-        
-        
-        enemy.name = "enemy"
-        
-
-        //addChild(enemy)
-        
         let name = "enemy\(enemyCount)"
-        var enemyClone:Enemy = Enemy(hp: 100, sprite: "gray.png")
-        enemyArray.insert(enemyClone, at:enemyCount)
-        enemyArray[enemyCount].setUp(aN: aN)
-        enemyArray[enemyCount].enemy.name = name
-        print(enemyArray[enemyCount].enemy.name)
-        addChild(enemyArray[enemyCount].enemy)
-        enemyCount += 1
+        let enemyClone:Enemy = Enemy(hp: 100, sprite: "gray.png")
 
+        //Hashmap = Dictionary
+        enemyDictionary[name] = enemyClone
+        enemyDictionary[name]?.setUp(aN: aN)
+        enemyDictionary[name]?.enemy.name = name
+        addChild((enemyDictionary[name]?.enemy)!)
+        enemyDictionary[name]?.enemyIdle()
+        enemyCount += 1
     }
     
     func moveEnemy(){
@@ -895,7 +855,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let y = p1.y
         let x2 = p2.x
         let y2 = p2.y
-        var pos = (Int(x2 - x)^2) + (Int(y2 - y)^2)
+        let pos = (Int(x2 - x)^2) + (Int(y2 - y)^2)
         
         return sqrt(Double(pos))
         
@@ -972,6 +932,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let anim = (SKAction.repeat(SKAction.animate(with: self.TextureArrayBlastBallEnd, timePerFrame: 0.05), count: 1))
         let explosion = SKSpriteNode( imageNamed : "cat_blast_end_1")
+        //let pos = bullet.position
+        //let siz = enemyDictionary[object.name!]?.enemy.size
         
         if(facingRight){
             explosion.xScale = 1
@@ -981,6 +943,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             explosion.run(sequence)
             bullet.removeFromParent()
             push = true
+            enemyDictionary[object.name!]?.push = true
+            enemyDictionary[object.name!]?.hp = (enemyDictionary[object.name!]?.hp)!  - 10
             
         }
         else{
@@ -991,9 +955,31 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             explosion.run(sequence)
             bullet.removeFromParent()
             push = true
-
+            enemyDictionary[object.name!]?.push = true
+            enemyDictionary[object.name!]?.hp = (enemyDictionary[object.name!]?.hp)!  - 10
+            
+        }
+        
+        if((enemyDictionary[object.name!]?.hp)! <= 0){
+            object.removeFromParent()
+            enemyDictionary.removeValue(forKey: object.name!)
+            //explodeEnemy(position: pos, size : siz!)
         }
     }
+    
+    func explodeEnemy(position: CGPoint, size : CGSize){
+        let anim = (SKAction.repeat(SKAction.animate(with: self.TextureArrayBlastBallEnd, timePerFrame: 0.05), count: 1))
+        let explosion = SKSpriteNode( imageNamed : "cat_blast_end_1")
+
+        explosion.xScale = 1
+        let sequence = SKAction.sequence([anim])
+        explosion.position = position
+        explosion.size = size
+        self.addChild(explosion)
+        explosion.run(sequence)
+        
+    }
+   
     
     func didBegin(_ contact: SKPhysicsContact) {
         guard let nodeA = contact.bodyA.node else { return }

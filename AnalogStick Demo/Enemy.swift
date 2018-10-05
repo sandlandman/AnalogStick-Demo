@@ -9,11 +9,22 @@
 import Foundation
 import SpriteKit
 
+@available(iOS 10.0, *)
 class Enemy {
     var hp: Int
     var sprite : String
     var enemy = SKSpriteNode()
     var push = false
+    var dirRight = false
+    
+    var TextureAtlasEnemyCatIdle = SKTextureAtlas()
+    var TextureArrayEnemyCatIdle = [SKTexture]()
+    
+    var TextureAtlasEnemyCatRun = SKTextureAtlas()
+    var TextureArrayEnemyCatRun = [SKTexture]()
+    
+    var TextureAtlasScratch = SKTextureAtlas()
+    var TextureArrayScratch = [SKTexture]()
     
     
     init(hp: Int, sprite: String) {
@@ -23,9 +34,11 @@ class Enemy {
     
     func setUp(aN : SKSpriteNode){
         
-        enemy = SKSpriteNode(imageNamed: "gray.png")
-        enemy.position.x = aN.position.x + 20
-        enemy.position.y = aN.position.y - 50
+        let roll = randomInt(min: -500, max: 500)
+        
+        enemy = SKSpriteNode(imageNamed: "catEnemy_1.png")
+        enemy.position.x = aN.position.x + CGFloat (roll)
+        enemy.position.y = aN.position.y - 10
         enemy.zPosition = 2
         enemy.size = aN.size
         enemy.physicsBody = SKPhysicsBody(rectangleOf: enemy.size)
@@ -34,6 +47,10 @@ class Enemy {
         enemy.physicsBody?.friction = 0
         enemy.physicsBody?.collisionBitMask = 0
     
+    }
+    
+    func randomInt(min: Int, max:Int) -> Int {
+        return min + Int(arc4random_uniform(UInt32(max - min + 1)))
     }
     
     func moveEnemy(aN : SKSpriteNode, facingRight : Bool){
@@ -50,10 +67,57 @@ class Enemy {
         else{
             if(aN.position.x + 100 < enemy.position.x ){
                 enemy.position.x -= 1
+                dirRight = false
+                enemy.xScale = abs(enemy.xScale) * 1
             }
             if (aN.position.x - 100 > enemy.position.x){
                 enemy.position.x += 1
+                dirRight = true
+                enemy.xScale = abs(enemy.xScale) * -1
+            }
+            else{
+                let idle = (SKAction.repeat(SKAction.animate(with: TextureArrayEnemyCatIdle, timePerFrame: 0.1), count: 1))
+                let sequence = SKAction.sequence([ scale,idle,run])
+                self.enemy.run(sequence)
             }
         }
     }
+  
+    
+    func enemyIdle(){
+        
+        TextureAtlasEnemyCatIdle = SKTextureAtlas(named: "enemyCat_idle")
+        for i in 1...TextureAtlasEnemyCatIdle.textureNames.count{
+            let Name = "catEnemy_\(i).png"
+            TextureArrayEnemyCatIdle.append(SKTexture (imageNamed: Name))
+        }
+        
+        TextureAtlasEnemyCatRun = SKTextureAtlas(named: "enemyCatRun")
+        for i in 1...TextureAtlasEnemyCatIdle.textureNames.count{
+            let Name = "catRun_\(i).png"
+            TextureArrayEnemyCatRun.append(SKTexture (imageNamed: Name))
+        }
+        
+        TextureAtlasScratch = SKTextureAtlas(named: "cut_c")
+        for i in 1...TextureAtlasScratch.textureNames.count{
+            let Name = "cut_c_000\(i).png"
+            TextureArrayScratch.append(SKTexture (imageNamed: Name))
+        }
+        
+        let height =  (self.TextureArrayEnemyCatRun[1].size().height) / (self.TextureArrayEnemyCatIdle[0].size().height)
+        let width = (self.TextureArrayEnemyCatRun[1].size().width) / (self.TextureArrayEnemyCatIdle[0].size().width)
+        let h2 = (self.TextureArrayEnemyCatIdle[0].size().height) * height
+        let w2 = (self.TextureArrayEnemyCatIdle[0].size().width) * width
+        let size = CGSize(width: w2, height: h2)
+        
+        let randomFloat = CGFloat.random(in: 2.0...4.0)
+        let scale = SKAction.scale(to: size, duration: 0)
+        
+        let idle = (SKAction.repeat(SKAction.animate(with: TextureArrayEnemyCatIdle, timePerFrame: 0.1), count: 1))
+        let run = (SKAction.repeatForever(SKAction.animate(with: TextureArrayEnemyCatRun, timePerFrame: 0.1)))
+        
+        let sequence = SKAction.sequence([ scale,idle,run])
+        self.enemy.run(sequence)
+    }
+    
 }
