@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3F31553320E93DCE00D3DA5F /* cat_blast.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 3F31553220E93DCE00D3DA5F /* cat_blast.atlas */; };
 		3F31554120E9B2EF00D3DA5F /* cat_blast_ball.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 3F31554020E9B2EF00D3DA5F /* cat_blast_ball.atlas */; };
+		3F5CA426216AC4F1006140DE /* Attack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5CA425216AC4F1006140DE /* Attack.swift */; };
 		3F6418BB20D9FAE200EDB782 /* images.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 3F6418BA20D9FAE200EDB782 /* images.atlas */; };
 		3F6782FA213B8A4B0050212B /* bullet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6782F9213B8A4B0050212B /* bullet.swift */; };
 		3F678306213DDD3F0050212B /* cat_walk_gun.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 3F678305213DDD3F0050212B /* cat_walk_gun.atlas */; };
@@ -81,6 +82,7 @@
 /* Begin PBXFileReference section */
 		3F31553220E93DCE00D3DA5F /* cat_blast.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = cat_blast.atlas; sourceTree = "<group>"; };
 		3F31554020E9B2EF00D3DA5F /* cat_blast_ball.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = cat_blast_ball.atlas; sourceTree = "<group>"; };
+		3F5CA425216AC4F1006140DE /* Attack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Attack.swift; sourceTree = "<group>"; };
 		3F6418BA20D9FAE200EDB782 /* images.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = images.atlas; sourceTree = "<group>"; };
 		3F6782F9213B8A4B0050212B /* bullet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bullet.swift; sourceTree = "<group>"; };
 		3F678305213DDD3F0050212B /* cat_walk_gun.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = cat_walk_gun.atlas; sourceTree = "<group>"; };
@@ -228,6 +230,7 @@
 				8C2C1F6B19DD762300510F35 /* GameScene.swift */,
 				3F6782F9213B8A4B0050212B /* bullet.swift */,
 				3FA29718212A0D270046CA1C /* Enemy.swift */,
+				3F5CA425216AC4F1006140DE /* Attack.swift */,
 				8C2C1F6D19DD762300510F35 /* GameViewController.swift */,
 				8C2C1F7219DD762300510F35 /* Images.xcassets */,
 				3F8ADB6E20FBFD9D00E71860 /* background */,
@@ -414,6 +417,7 @@
 				3F8ADB6D20FBFBA100E71860 /* InfiniteScrollingBackground.swift in Sources */,
 				8C2C1F6E19DD762300510F35 /* GameViewController.swift in Sources */,
 				8C2C1F6819DD762300510F35 /* AppDelegate.swift in Sources */,
+				3F5CA426216AC4F1006140DE /* Attack.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

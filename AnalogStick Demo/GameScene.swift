@@ -20,7 +20,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var TextureAtlasCatKick = SKTextureAtlas()
     var TextureAtlasCharge = SKTextureAtlas()
     var TextureAtlasEnemyCatIdle = SKTextureAtlas()
-
+    
     var TextureArrayShootWalk = [SKTexture]()
     var TextureArrayWalk = [SKTexture]()
     var TextureArrayIdle = [SKTexture]()
@@ -34,14 +34,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var TextureArrayCharge = [SKTexture]()
     var TextureArrayChargeHold = [SKTexture]()
     var TextureArrayEnemyCatIdle = [SKTexture]()
-
-
+    
+    
     private var shootWalk: [SKTexture] = []
     
     var timer: Timer!
     var totalTime = 0.2
-
-
+    
+    
     var sky = SKSpriteNode( imageNamed : "sky.png")
     var ground = SKSpriteNode ( imageNamed: "black copy.png")
     
@@ -59,7 +59,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var enemyArray = [Enemy]()
     var enemyDictionary = [String : Enemy]()
     var enemyCount = 0
-
+    
     
     
     var treeisFront = true
@@ -98,11 +98,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var masterSize = CGSize()
     
-
+    
     var CameraNode: SKCameraNode?
     
     override func didMove(to view: SKView) {
-       
+        
         setUp()
         setUpBlastHandlers()
         if #available(iOS 10.0, *) {
@@ -128,7 +128,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         shootNode?.position.y = ground.position.y + ground.size.height/2
         shootNode?.position.x = ground.position.x + ground.size.width/2
         
-
+        
         ground.size.width = (scene?.frame.width)!
         ground.position.x = (scene?.frame.maxX)!/2
         ground.position.y = (scene?.frame.minY)! + 20
@@ -140,17 +140,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         m.position = CGPoint(x : (scene?.frame.width)!/2 , y: (scene?.frame.height)!/2 + 100)
         m.zPosition = -6
         addChild(m)
-      
-       
+        
+        
         createTree()
-
+        
         //mp.nowPlayingItem?.title
         //let size2 = CGSize(width: 20, height: 30)
         //let scoreSprite = SKSpriteNode(color: SKColor.clear, size: size2)
         //addChild(scoreSprite)
         
         physicsWorld.contactDelegate = self
-
+        
     }
     
     func createTree() {
@@ -196,7 +196,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func moveTrees( _ first: SKSpriteNode, _ second: SKSpriteNode, _ third: SKSpriteNode, _ s: CGFloat){
-    
+        
         if (facingRight == true){
             first.position.x += s
             second.position.x += s
@@ -207,10 +207,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             second.position.x -= s
             third.position.x -= s
         }
-    
-    
+        
+        
     }
-
+    
     
     func keepPlayerInBounds() {
         guard let aN = self.appleNode else {
@@ -237,7 +237,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             treeisBack2 = moveBackgroundBack(trees2, treeBack2, treeFront2, treeisBack2)
             
         }
-
+        
         
         m.position.x = (appleNode?.position.x)!
         sky.position.x = (appleNode?.position.x)!
@@ -277,7 +277,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             loop2 = true
         }
         
-       
+        
         
         return loop2
         
@@ -298,11 +298,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             third.position.x = first.position.x + first.size.width - 10
             loop2 = true
         }
-    
+        
         return loop2
-
+        
     }
-
+    
     func catAnimation(_ animation: [SKTexture], _ action: String){
         
         var anim = [SKTexture]()
@@ -399,7 +399,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     
-
+    
     //Setup
     func setUp(){
         
@@ -417,7 +417,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         superKickButton.position = CGPoint(x: moveAnalogStick.radius + 100, y: moveAnalogStick.radius + 100)
         
         moveAnalogStick.zPosition = 4
-
+        
         let btnsOffset: CGFloat = 10
         let btnsOffsetHalf = btnsOffset / 2
         
@@ -467,10 +467,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.masterSize = size
             
             
-          let ani = (SKAction.repeatForever(SKAction.animate(with: self.TextureArrayShootWalk, timePerFrame: 0.05)))
+            let ani = (SKAction.repeatForever(SKAction.animate(with: self.TextureArrayShootWalk, timePerFrame: 0.05)))
             
-          //let scale = SKAction.scale(to: size, duration: 0)
-          aN.run(SKAction.sequence([ani]))
+            //let scale = SKAction.scale(to: size, duration: 0)
+            aN.run(SKAction.sequence([ani]))
             //print(aN.position.y)
             
             AudioServicesPlaySystemSound(1519)
@@ -491,7 +491,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 aN.xScale = -1
                 self.facingRight = false
                 //self.setMovementDirection()
-
             }
             else if(data.velocity.x >= 0 && self.facingRight != true){
                 aN.xScale = 1
@@ -501,12 +500,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             self.moveTrees(self.trees2, self.treeBack2, self.treeFront2, 1.0)
             self.moveTrees(self.trees, self.treeBack, self.treeFront, 0.5)
-
+            
             if(self.shootBullets == true){
                 self.shoot()
                 self.shootBullets = false
                 self.startTimer()
-             }
+            }
         }
         moveAnalogStick.stopHandler = { [unowned self] in
             //self.appleNode!.removeAllActions()
@@ -544,7 +543,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 return
             }
             self.blasting = false;
-        
+            
             aN.run(SKAction.repeat(SKAction.animate(with: self.TextureArrayCharge, timePerFrame: 0.1), count: 1))
             {
                 aN.run(SKAction.repeatForever(SKAction.animate(with: self.TextureArrayChargeHold, timePerFrame: 0.05)))
@@ -597,7 +596,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //bN.physicsBody?.applyImpulse(CGVector (dx: sin(aN.position.x) * 100, dy: cos(aN.position.y) * 100 ))
         }
         kickButton.stopHandler = { [unowned self] in
-
+            
             self.catAnimation(self.TextureArrayIdle, "Cat")
             AudioServicesPlaySystemSound(1521)
         }
@@ -658,13 +657,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let scrollerTemp = InfiniteScrollingBackground(images: images, scene: self, scrollDirection: .right , speed: speed, y: y)
             scrollerTemp?.scroll()
             scrollerTemp?.zPosition = layer
-                 return scrollerTemp!
+            return scrollerTemp!
         }
         if direction == "left"{
             let scrollerTemp = InfiniteScrollingBackground(images: images, scene: self, scrollDirection: .left , speed: speed, y: y)
             scrollerTemp?.scroll()
             scrollerTemp?.zPosition = layer
-                 return scrollerTemp!
+            return scrollerTemp!
         }
         return InfiniteScrollingBackground(images: images, scene: self, scrollDirection: .left , speed: speed, y: y)!
     }
@@ -683,7 +682,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             scrollerBackTree?.isPaused = false
             scrollerFrontTree?.isPaused = false
         }
-       
+        
         
     }
     
@@ -745,11 +744,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         TextureAtlasSuperCat = SKTextureAtlas(named: "super_kick")
         
-       for j in 1...10{
+        for j in 1...10{
             
             let Name2 = "high_kick_\(j).png"
             TextureArraySuperCat.append(SKTexture (imageNamed: Name2))
-        
+            
         }
         for j in 1...2{
             
@@ -763,7 +762,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let Name2 = "kick_\(j).png"
             TextureArrayCatKick.append(SKTexture (imageNamed: Name2))
         }
-    
+        
         TextureAtlasCharge = SKTextureAtlas(named: "cat_charge")
         for j in 1...TextureAtlasCharge.textureNames.count{
             
@@ -775,16 +774,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let Name2 = "charge_\(j+4).png"
             TextureArrayChargeHold.append(SKTexture (imageNamed: Name2))
         }
-      
+        
         let apple = SKSpriteNode(imageNamed: TextureAtlasWalk.textureNames[0] as String)
         let blast = SKSpriteNode(imageNamed: TextureAtlasBlastBall.textureNames[0] as String)
         let shootNode = SKSpriteNode(imageNamed: TextureAtlasShootWalk.textureNames[0] as String)
-     
+        
         
         
         apple.position.y = position.y - 50
         shootNode.position.y = position.y - 50
         blast.position = position
+        
+        apple.physicsBody = SKPhysicsBody(rectangleOf: apple.size)
+        apple.physicsBody?.affectedByGravity = false
+        apple.name = "apple"
+        apple.zPosition = 2
+        apple.physicsBody?.restitution = 0.0
+        apple.physicsBody?.friction = 0.0
+        apple.physicsBody!.contactTestBitMask = apple.physicsBody!.collisionBitMask
+        apple.physicsBody?.collisionBitMask = 0
         
         appleNode = apple
         appleNode?.size = CGSize(width: 100, height: 100)
@@ -812,7 +820,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         let name = "enemy\(enemyCount)"
         let enemyClone:Enemy = Enemy(hp: 100, sprite: "gray.png")
-
+        
         //Hashmap = Dictionary
         enemyDictionary[name] = enemyClone
         enemyDictionary[name]?.setUp(aN: aN)
@@ -822,11 +830,37 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         enemyCount += 1
     }
     
+    func scratch(name: String){
+        
+        if(enemyDictionary[name]?.dirRight == true){
+            enemyDictionary[name]?.enemy.physicsBody?.applyImpulse((CGVector(dx: 120, dy: 0 )))
+        }else{
+            enemyDictionary[name]?.enemy.physicsBody?.applyImpulse((CGVector(dx: -120, dy: 0 )))
+        }
+
+        var attack = SKSpriteNode(imageNamed: "cut_c_0001")
+        attack.position.x = (appleNode?.position.x)!
+        attack.position.y = (appleNode?.position.y)!
+
+        let TextureAtlasScratch = SKTextureAtlas(named: "cut_c")
+        var TextureArrayScratch = [SKTexture]()
+        for i in 1...TextureAtlasScratch.textureNames.count{
+            let Name = "cut_c_000\(i).png"
+            TextureArrayScratch.append(SKTexture (imageNamed: Name))
+        }
+        addChild(attack)
+        let att = (SKAction.repeat(SKAction.animate(with: TextureArrayScratch, timePerFrame: 0.1), count: 1))
+        let remove = SKAction.removeFromParent()
+        let sequence = SKAction.sequence([att, remove])
+        attack.run(sequence)
+
+    }
+    
     func moveEnemy(){
         guard let aN = self.appleNode else {
             return
         }
-       
+        
         if(push == true){
             if(facingRight){
                 enemy.position.x += 10
@@ -867,23 +901,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             return
         }
         
-      //Physics Setup of Bullet
-      let bullet = SKSpriteNode(imageNamed: "bullet.png")
-      bullet.physicsBody = SKPhysicsBody(rectangleOf: bullet.size)
-      //bullet.physicsBody?.isDynamic = false
-      bullet.physicsBody?.affectedByGravity = false
-      bullet.name = "bullet"
-      bullet.zPosition = 2
-      bullet.physicsBody?.restitution = 0.0
-      bullet.physicsBody?.friction = 0.0
-      bullet.physicsBody!.contactTestBitMask = bullet.physicsBody!.collisionBitMask
-      bullet.physicsBody?.collisionBitMask = 0
+        //Physics Setup of Bullet
+        let bullet = SKSpriteNode(imageNamed: "bullet.png")
+        bullet.physicsBody = SKPhysicsBody(rectangleOf: bullet.size)
+        //bullet.physicsBody?.isDynamic = false
+        bullet.physicsBody?.affectedByGravity = false
+        bullet.name = "bullet"
+        bullet.zPosition = 2
+        bullet.physicsBody?.restitution = 0.0
+        bullet.physicsBody?.friction = 0.0
+        bullet.physicsBody!.contactTestBitMask = bullet.physicsBody!.collisionBitMask
+        bullet.physicsBody?.collisionBitMask = 0
         
-      bullet.position = aN.position
-    
-      var distance: CGFloat
-    
-
+        bullet.position = aN.position
+        
+        var distance: CGFloat
+        
+        
         if(self.facingRight == true){
             bullet.xScale = 0.05
             bullet.yScale = 0.05
@@ -899,15 +933,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             distance = aN.position.x + -1000
         }
         
-      let time: Double = 1
-      let move = SKAction.moveTo(x: distance, duration: time)
-      
-     let sequence = SKAction.sequence([move, buildAction(bullet, _facingRight: self.facingRight, _distance: distance)])
+        let time: Double = 1
+        let move = SKAction.moveTo(x: distance, duration: time)
         
-     bullet.run(sequence)
-      
-     addChild(bullet)
-     
+        let sequence = SKAction.sequence([move, buildAction(bullet, _facingRight: self.facingRight, _distance: distance)])
+        
+        bullet.run(sequence)
+        
+        addChild(bullet)
+        
     }
     
     func buildAction(_ bullet: SKSpriteNode, _facingRight: Bool, _distance: CGFloat) -> SKAction {
@@ -915,14 +949,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if(bullet.position.x >= _distance || bullet.position.x <= _distance){
                 bullet.removeFromParent()
             }
-        
+            
         }
     }
     
     //Delete explosion
     func buildActionBullet(_ object: SKSpriteNode) -> SKAction {
         return SKAction.run {
-                object.removeFromParent()
+            object.removeFromParent()
         }
     }
     
@@ -970,7 +1004,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func explodeEnemy(position: CGPoint, size : CGSize){
         let anim = (SKAction.repeat(SKAction.animate(with: self.TextureArrayBlastBallEnd, timePerFrame: 0.05), count: 1))
         let explosion = SKSpriteNode( imageNamed : "cat_blast_end_1")
-
+        
         explosion.xScale = 1
         let sequence = SKAction.sequence([anim])
         explosion.position = position
@@ -979,11 +1013,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         explosion.run(sequence)
         
     }
-   
+    
     
     func didBegin(_ contact: SKPhysicsContact) {
         guard let nodeA = contact.bodyA.node else { return }
         guard let nodeB = contact.bodyB.node else { return }
+        
+        if(nodeA.name == "apple" || (nodeB.name?.contains("enemy"))!) {
+            scratch(name : (nodeB.name)!)
+        }
         
         for index in 0...enemyCount {
             if nodeA.name == "bullet" && nodeB.name == "enemy\(index)"{
@@ -993,7 +1031,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
     }
-
+    
     
     func startTimer(){
         
@@ -1013,7 +1051,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             // Fallback on earlier versions
         }
     }
-    
 }
 
 extension UIColor {

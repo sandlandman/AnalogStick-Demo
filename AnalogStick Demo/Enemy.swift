@@ -38,11 +38,12 @@ class Enemy {
         
         enemy = SKSpriteNode(imageNamed: "catEnemy_1.png")
         enemy.position.x = aN.position.x + CGFloat (roll)
-        enemy.position.y = aN.position.y - 10
+        enemy.position.y = aN.position.y - 20
         enemy.zPosition = 2
         enemy.size = aN.size
         enemy.physicsBody = SKPhysicsBody(rectangleOf: enemy.size)
-        enemy.physicsBody?.isDynamic = false
+        enemy.physicsBody?.isDynamic = true
+        enemy.physicsBody?.affectedByGravity = false;
         enemy.physicsBody?.restitution = 0.0
         enemy.physicsBody?.friction = 0
         enemy.physicsBody?.collisionBitMask = 0
@@ -65,22 +66,30 @@ class Enemy {
             }
         }
         else{
-            if(aN.position.x + 100 < enemy.position.x ){
+            if(enemy.position.x >= aN.position.x + 10){
                 enemy.position.x -= 1
                 dirRight = false
                 enemy.xScale = abs(enemy.xScale) * 1
             }
-            if (aN.position.x - 100 > enemy.position.x){
+            else if (enemy.position.x < aN.position.x - 10){
                 enemy.position.x += 1
                 dirRight = true
                 enemy.xScale = abs(enemy.xScale) * -1
             }
-            else{
-                let idle = (SKAction.repeat(SKAction.animate(with: TextureArrayEnemyCatIdle, timePerFrame: 0.1), count: 1))
-                //let sequence = SKAction.sequence([ scale,idle,run])
-                //self.enemy.run(sequence)
-            }
         }
+        
+        
+        if(enemy.position.x < aN.position.x - 50){
+            enemy.physicsBody?.velocity = CGVector(dx: 0, dy:  0)
+        }
+        if(enemy.position.x > aN.position.x + 50 ){
+            enemy.physicsBody?.velocity = CGVector(dx: 0, dy:  0)
+        }
+        
+    }
+    
+    func detectPlayer(){
+        
     }
   
     
@@ -119,5 +128,4 @@ class Enemy {
         let sequence = SKAction.sequence([ scale,idle,run])
         self.enemy.run(sequence)
     }
-    
 }
