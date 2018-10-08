@@ -277,8 +277,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             loop2 = true
         }
         
-        
-        
         return loop2
         
     }
@@ -832,13 +830,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func scratch(name: String){
         
+        var attack = SKSpriteNode()
+        attack.size = enemy.size
+        var scale = SKAction.scale(to: 1, duration: 0)
+
+        
         if(enemyDictionary[name]?.dirRight == true){
             enemyDictionary[name]?.enemy.physicsBody?.applyImpulse((CGVector(dx: 120, dy: 0 )))
+            scale = SKAction.scale(to: -0.1, duration: 0)
         }else{
             enemyDictionary[name]?.enemy.physicsBody?.applyImpulse((CGVector(dx: -120, dy: 0 )))
+            scale = SKAction.scale(to: 0.1, duration: 0)
         }
 
-        var attack = SKSpriteNode(imageNamed: "cut_c_0001")
         attack.position.x = (appleNode?.position.x)!
         attack.position.y = (appleNode?.position.y)!
 
@@ -851,7 +855,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(attack)
         let att = (SKAction.repeat(SKAction.animate(with: TextureArrayScratch, timePerFrame: 0.1), count: 1))
         let remove = SKAction.removeFromParent()
-        let sequence = SKAction.sequence([att, remove])
+        let sequence = SKAction.sequence([scale, att, remove])
         attack.run(sequence)
 
     }
