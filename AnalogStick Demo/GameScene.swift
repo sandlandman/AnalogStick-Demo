@@ -1023,10 +1023,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         guard let nodeA = contact.bodyA.node else { return }
         guard let nodeB = contact.bodyB.node else { return }
         
-        if(nodeA.name == "apple" || (nodeB.name?.contains("enemy"))!) {
-            scratch(name : (nodeB.name)!)
+        if(nodeA.name != nil && nodeB.name != nil){
+            let nameA = nodeA.name
+            let nameB = nodeB.name
+            if(nameA == "apple" && (nameB?.contains("enemy"))! ) {
+                scratch(name : (nodeB.name)!)
+            }
         }
-        
+    
         for index in 0...enemyCount {
             if nodeA.name == "bullet" && nodeB.name == "enemy\(index)"{
                 collisionBetween(bullet: nodeA, object: nodeB)
